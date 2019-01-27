@@ -1,6 +1,7 @@
 const { Builder } = require('selenium-webdriver')
 
 const bsConfig = {
+  project: 'yaml-playground',
   'browserstack.local': 'true',
   'browserstack.user': process.env.BROWSERSTACK_USER,
   'browserstack.key': process.env.BROWSERSTACK_ACCESS_KEY,
