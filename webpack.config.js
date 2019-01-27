@@ -30,7 +30,13 @@ const yaml = Object.assign(
       filename: 'yaml.browser.js',
       library: 'YAML',
       libraryTarget: 'umd'
-    }
+    },
+    plugins: [
+      new HtmlWebpackPlugin({
+        filename: 'test.html',
+        title: 'YAML Browser Tests'
+      })
+    ]
   },
   common
 )
