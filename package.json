@@ -16,7 +16,8 @@
   "scripts": {
     "build": "webpack --mode production",
     "start": "webpack-dev-server --mode development --open",
-    "test": "jest browser-test/"
+    "test": "jest browser-test/",
+    "test:ci": "jest browser-test/browserstack.test.js"
   },
   "browserslist": "> 0.5%, not dead",
   "prettier": {
