@@ -2,12 +2,12 @@ const testSuite = require('./test-suite')
 const getDriver = require('./browserstack.driver')
 
 for (const browser of [
-  'chrome 49'
-  //'ie 11',
-  //'edge 17',
-  //'safari 12',
-  //'android 5.0',
-  //'ios 11.4'
+  'chrome 49',
+  'ie 11',
+  'edge 17',
+  'safari 12',
+  'android 5.0',
+  'ios 11.4'
 ])
   describe(browser, () => {
     const driver = getDriver(browser)
