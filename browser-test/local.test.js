@@ -1,4 +1,3 @@
-const path = require('path')
 const chrome = require('selenium-webdriver/chrome')
 const { Builder } = require('selenium-webdriver')
 
@@ -9,10 +8,7 @@ const driver = new Builder()
   .setChromeOptions(new chrome.Options().headless())
   .build()
 
-beforeAll(() => {
-  const dist = path.resolve(__dirname, '../dist')
-  return driver.get(`file://${dist}/test.html`)
-}, 10000)
+beforeAll(() => driver.get('http://localhost:8080/test.html'), 10000)
 
 afterAll(() => driver.quit(), 10000)
 
