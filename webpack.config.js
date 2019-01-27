@@ -1,4 +1,5 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 
 const common = {
   devtool: 'source-map',
@@ -13,6 +14,10 @@ const common = {
             presets: ['@babel/preset-env']
           }
         }
+      },
+      {
+        test: /\.css$/,
+        use: [MiniCssExtractPlugin.loader, 'css-loader']
       }
     ]
   }
@@ -35,9 +40,8 @@ const app = Object.assign(
     entry: './src/index.js',
     externals: { yaml: 'YAML' },
     plugins: [
-      new HtmlWebpackPlugin({
-        template: 'src/index.html'
-      })
+      new HtmlWebpackPlugin({ template: 'src/index.html' }),
+      new MiniCssExtractPlugin({ filename: '[name].css' })
     ]
   },
   common

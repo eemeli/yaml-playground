@@ -1,0 +1,39 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+
+  background: #341f3d;
+  background: linear-gradient(135deg, #451958 0%, #2c1439 100%);
+  background-attachment: fixed;
+}
+
+main {
+  display: flex;
+  flex: 1;
+  justify-content: space-between;
+  margin: 8px;
+}
+
+textarea {
+  flex: 1;
+  margin: 8px;
+  resize: none;
+  width: 50%;
+
+  font-family: Consolas, Menlo, Monaco, 'Lucida Console', 'Liberation Mono',
+    'DejaVu Sans Mono', 'Bitstream Vera Sans Mono', 'Courier New', monospace,
+    serif;
+  font-size: 14px;
+  line-height: 1.5;
+}
