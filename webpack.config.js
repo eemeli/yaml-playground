@@ -23,6 +23,11 @@ const common = {
   }
 }
 
+const polyfill = {
+  entry: './src/polyfill.js',
+  output: { filename: 'polyfill.js' }
+}
+
 const yaml = Object.assign(
   {
     entry: './node_modules/yaml/browser/dist/index.js',
@@ -33,8 +38,8 @@ const yaml = Object.assign(
     },
     plugins: [
       new HtmlWebpackPlugin({
-        filename: 'test.html',
-        title: 'YAML Browser Tests'
+        template: 'src/test.html',
+        filename: 'test.html'
       })
     ]
   },
@@ -53,4 +58,4 @@ const app = Object.assign(
   common
 )
 
-module.exports = [yaml, app]
+module.exports = [polyfill, yaml, app]
