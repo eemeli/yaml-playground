@@ -43,13 +43,50 @@ module.exports = driver => {
           expect(res).toMatchObject(['first', '2nd', 3])
         }))
 
-    test('parse v1.1 document', () =>
-      driver
+    test('parse v1.1 document', () => {
+      const src = `%YAML 1.1\n---
+        true: Yes
+        octal: 014
+        sexagesimal: 3:25:45
+        date: 2002-12-14
+        omap: !!omap
+          - foo: bar
+          - fizz: buzz
+        set: !!set { a, b, c }
+        picture: !!binary |
+          R0lGODlhDAAMAIQAAP//9/X
+          17unp5WZmZgAAAOfn515eXv
+          Pz7Y6OjuDg4J+fn5OTk6enp
+          56enmleECcgggoBADs=
+        `
+      return driver
         .executeScript(
-          `return YAML.parse('%YAML 1.1\\n---\\ny: ~\\n010: eight\\n')`
+          `var res = YAML.parse(${JSON.stringify(src)})
+          if (res.date instanceof Date) res.date = res.date.toISOString()
+          if (res.set instanceof Set) {
+            var set = []
+            res.set.forEach(function(value) { set.push(value) })
+            res.set = set
+          }
+          if (res.omap instanceof Map) {
+            var omap = []
+            res.omap.forEach(function(value, key) { omap.push([key, value]) })
+            res.omap = omap
+          }
+          return res`
         )
         .then(res => {
-          expect(res).toMatchObject({ true: null, 8: 'eight' })
-        }))
+          expect(res).toMatchObject({
+            true: true,
+            octal: 12,
+            sexagesimal: 12345,
+            date: '2002-12-14T00:00:00.000Z',
+            omap: [['foo', 'bar'], ['fizz', 'buzz']],
+            set: ['a', 'b', 'c']
+          })
+          expect(res.picture).toBeInstanceOf(Array)
+          expect(res.picture).toHaveLength(65)
+        })
+    })
   })
 }
