@@ -1,4 +1,10 @@
 module.exports = driver => {
+  beforeAll(() =>
+    driver.executeScript('return typeof YAML').then(res => {
+      expect(res).toBe('object')
+    })
+  )
+
   const valid = [
     { name: 'plain string', yaml: 'foo\n', js: 'foo' },
     { name: 'plain number', yaml: '42\n', js: 42 },
@@ -73,6 +79,9 @@ module.exports = driver => {
             res.omap.forEach(function(value, key) { omap.push([key, value]) })
             res.omap = omap
           }
+          if (res.picture instanceof Uint8Array) {
+            res.pictureLength = res.picture.length
+          }
           return res`
         )
         .then(res => {
@@ -82,10 +91,9 @@ module.exports = driver => {
             sexagesimal: 12345,
             date: '2002-12-14T00:00:00.000Z',
             omap: [['foo', 'bar'], ['fizz', 'buzz']],
-            set: ['a', 'b', 'c']
+            set: ['a', 'b', 'c'],
+            pictureLength: 65
           })
-          expect(res.picture).toBeInstanceOf(Array)
-          expect(res.picture).toHaveLength(65)
         })
     })
   })
