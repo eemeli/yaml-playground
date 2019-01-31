@@ -1,7 +1,7 @@
 import YAML from 'yaml'
 import './main.css'
 
-console.log('YAML', YAML)
+console.log('YAML', YAML) // eslint-disable-line no-console
 
 function Store(key) {
   this.get = () => window.localStorage.getItem(key)
@@ -38,7 +38,9 @@ function initValues() {
   try {
     const prevSrc = store.get()
     if (prevSrc && typeof prevSrc === 'string') src = prevSrc
-  } catch (e) {}
+  } catch (e) {
+    /* ignore error */
+  }
   yamlArea.value = src
   yamlArea.setAttribute('placeholder', defaultSrc)
   yamlArea.focus()
@@ -55,7 +57,9 @@ window.addEventListener('beforeunload', () => {
     if (src.length <= defaultSrc.length && defaultSrc.indexOf(src) === 0)
       store.remove()
     else store.set(src)
-  } catch (e) {}
+  } catch (e) {
+    /* ignore error */
+  }
 })
 
 initValues()
