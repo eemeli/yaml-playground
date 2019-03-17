@@ -30,7 +30,7 @@ const polyfill = {
 
 const yaml = Object.assign(
   {
-    entry: './node_modules/yaml/browser/dist/index.js',
+    entry: './node_modules/yaml/browser/index.js',
     output: {
       filename: 'yaml.browser.js',
       library: 'YAML',
