@@ -12,9 +12,12 @@ for (const browser of [
   describe(browser, () => {
     const driver = getDriver(browser)
 
-    beforeAll(() => driver.get('http://localhost:8080/test.html'), 60000)
+    beforeAll(
+      () => driver.get('http://localhost:8080/test.html'),
+      5 * 60 * 1000
+    )
 
-    afterAll(() => driver.quit(), 60000)
+    afterAll(() => driver.quit(), 5 * 60 * 1000)
 
     describe('test suite', () => {
       testSuite(driver)
