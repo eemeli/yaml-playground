@@ -20,6 +20,9 @@ const common = {
         use: [MiniCssExtractPlugin.loader, 'css-loader']
       }
     ]
+  },
+  node: {
+    Buffer: false
   }
 }
 
@@ -34,6 +37,7 @@ const yaml = Object.assign(
     output: {
       filename: 'yaml.browser.js',
       library: 'YAML',
+      libraryExport: 'default',
       libraryTarget: 'umd'
     },
     plugins: [
