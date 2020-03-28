@@ -90,7 +90,10 @@ module.exports = driver => {
             octal: 12,
             sexagesimal: 12345,
             date: '2002-12-14T00:00:00.000Z',
-            omap: [['foo', 'bar'], ['fizz', 'buzz']],
+            omap: [
+              ['foo', 'bar'],
+              ['fizz', 'buzz']
+            ],
             set: ['a', 'b', 'c'],
             pictureLength: 65
           })
