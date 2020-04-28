@@ -37,7 +37,6 @@ const yaml = Object.assign(
     output: {
       filename: 'yaml.browser.js',
       library: 'YAML',
-      libraryExport: 'default',
       libraryTarget: 'umd'
     },
     plugins: [
