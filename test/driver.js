@@ -1,4 +1,5 @@
 const { Builder } = require('selenium-webdriver')
+const chrome = require('selenium-webdriver/chrome')
 
 const bsConfig = {
   project: 'yaml-playground',
@@ -49,6 +50,12 @@ const browsers = {
 }
 
 module.exports = function getDriver(id) {
+  if (id === 'local')
+    return new Builder()
+      .forBrowser('chrome')
+      .setChromeOptions(new chrome.Options().headless())
+      .build()
+
   const browser = browsers[id]
   if (!browser) throw new Error(`Unknown browser id ${JSON.stringify(id)}`)
   return new Builder()

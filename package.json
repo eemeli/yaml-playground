@@ -1,8 +1,7 @@
 {
   "name": "yaml-playground",
-  "version": "0.0.1",
-  "license": "ISC",
   "private": true,
+  "license": "ISC",
   "author": "Eemeli Aro <eemeli@gmail.com>",
   "repository": "github:eemeli/yaml-playground",
   "description": "YAML playground",
@@ -16,8 +15,8 @@
   "scripts": {
     "build": "webpack --mode production",
     "start": "webpack-dev-server --mode development --open",
-    "test:local": "jest browser-test/local.test.js",
-    "test": "jest --testRunner='jest-circus/runner' browser-test/browserstack.test.js"
+    "test:local": "jest local",
+    "test": "node scripts/jest-with-services android chrome edge ie11"
   },
   "browserslist": "> 0.5%, not dead",
   "prettier": {
@@ -25,6 +24,9 @@
     "semi": false,
     "singleQuote": true,
     "trailingComma": "none"
+  },
+  "jest": {
+    "testRunner": "jest-circus/runner"
   },
   "dependencies": {
     "core-js": "^3.6.5",
@@ -34,6 +36,7 @@
     "@babel/core": "^7.9.6",
     "@babel/preset-env": "^7.9.6",
     "babel-loader": "^8.1.0",
+    "browserstack-local": "^1.4.5",
     "css-loader": "^3.5.3",
     "html-webpack-plugin": "^4.3.0",
     "jest": "^26.0.1",
