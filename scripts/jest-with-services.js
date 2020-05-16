@@ -3,6 +3,7 @@
 
 const { spawn } = require('child_process')
 const BrowserStack = require('browserstack-local')
+const { dirname, resolve } = require('path')
 const Webpack = require('webpack')
 const WebpackDevServer = require('webpack-dev-server')
 const webpackConfig = require('../webpack.config')
@@ -68,15 +69,17 @@ function stop() {
 
 async function main() {
   try {
+    const jestPkg = require('jest/package.json')
+    const jestDir = dirname(require.resolve('jest/package.json'))
+    const jestBin = resolve(jestDir, jestPkg.bin.jest)
+
     await Promise.all([startWebpackDevServer(), startBrowserStackLocal()])
     console.log('')
 
     await new Promise((resolve, reject) => {
-      jest = spawn(
-        '/Users/eemeli/code/yaml/playground/node_modules/.bin/jest',
-        process.argv.slice(2),
-        { stdio: ['pipe', process.stdout, process.stderr] }
-      )
+      jest = spawn(jestBin, process.argv.slice(2), {
+        stdio: ['pipe', process.stdout, process.stderr]
+      })
       jest.on('error', reject)
       jest.on('exit', code => {
         if (code !== 0) reject()
