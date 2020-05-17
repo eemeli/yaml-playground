@@ -71,7 +71,7 @@ async function main() {
   try {
     const jestPkg = require('jest/package.json')
     const jestDir = dirname(require.resolve('jest/package.json'))
-    const jestBin = resolve(jestDir, jestPkg.bin.jest)
+    const jestBin = resolve(jestDir, jestPkg.bin.jest || jestPkg.bin)
 
     await Promise.all([startWebpackDevServer(), startBrowserStackLocal()])
     console.log('')
@@ -86,10 +86,12 @@ async function main() {
         else resolve()
       })
     })
+    await stop()
   } catch (error) {
     if (error) console.error(error)
+    await stop()
+    process.exit(1)
   }
-  await stop()
 }
 
 process.on('SIGINT', async () => {
