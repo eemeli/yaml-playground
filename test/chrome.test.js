@@ -1,8 +1,13 @@
-const getDriver = require('./driver')
+const getDriver = require('./browserstack-driver')
 const testSuite = require('./test-suite')
 
-const browser = 'chrome 49'
-const driver = getDriver(browser)
+const driver = getDriver({
+  browserName: 'Chrome',
+  browser_version: '49.0',
+  os: 'Windows',
+  os_version: '10'
+})
+
 beforeAll(() => driver.get('http://localhost:8080/test.html'), 5 * 60 * 1000)
 afterAll(() => driver.quit(), 5 * 60 * 1000)
 describe('test suite', () => {

@@ -2,13 +2,13 @@ const getDriver = require('./browserstack-driver')
 const testSuite = require('./test-suite')
 
 const driver = getDriver({
-  browserName: 'Edge',
-  browser_version: '17.0',
-  os: 'Windows',
-  os_version: '10'
+  browserName: 'Safari',
+  browser_version: '12.0',
+  os: 'OS X',
+  os_version: 'Mojave'
 })
 
-beforeAll(() => driver.get('http://localhost:8080/test.html'), 5 * 60 * 1000)
+beforeAll(() => driver.get('http://bs-local.com:8080/test.html'), 5 * 60 * 1000)
 afterAll(() => driver.quit(), 5 * 60 * 1000)
 describe('test suite', () => {
   testSuite(driver)

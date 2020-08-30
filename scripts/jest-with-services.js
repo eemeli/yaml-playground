@@ -41,7 +41,11 @@ const stopBrowserStackLocal = () =>
 const startWebpackDevServer = (port = 8080) =>
   new Promise((resolve, reject) => {
     const compiler = Webpack(webpackConfig)
-    server = new WebpackDevServer(compiler, { stats: 'errors-warnings' })
+    server = new WebpackDevServer(compiler, {
+      disableHostCheck: true,
+      host: '0.0.0.0',
+      stats: 'errors-warnings'
+    })
 
     compiler.hooks.done.tap('dev-server', stats => {
       for (const { compilation } of stats.stats) {
