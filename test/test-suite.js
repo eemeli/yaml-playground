@@ -30,26 +30,24 @@ module.exports = driver => {
     })
   }
 
-  describe('parse advanced features', () => {
-    test('parse anchor', () =>
-      driver
-        .executeScript(`return YAML.parse('- &A aa\\n- bb\\n- *A')`)
-        .then(res => {
-          expect(res).toMatchObject(['aa', 'bb', 'aa'])
-        }))
+  describe('parse features', () => {
+    test('parse anchor', async () => {
+      const res = await driver.executeScript(
+        `return YAML.parse('- &A aa\\n- bb\\n- *A')`
+      )
+      expect(res).toMatchObject(['aa', 'bb', 'aa'])
+    })
 
-    test('parse multiple documents', () =>
-      driver
-        .executeScript(
-          `var src = 'first\\n---\\n2nd\\n...\\n3\\n'
-    var docs = YAML.parseAllDocuments(src)
-    return docs.map(function(doc) { return doc.toJSON() })`
-        )
-        .then(res => {
-          expect(res).toMatchObject(['first', '2nd', 3])
-        }))
+    test('parse multiple documents', async () => {
+      const res = await driver.executeScript(
+        `var src = 'first\\n---\\n2nd\\n...\\n3\\n'
+        var docs = YAML.parseAllDocuments(src)
+        return docs.map(function(doc) { return doc.toJSON() })`
+      )
+      expect(res).toMatchObject(['first', '2nd', 3])
+    })
 
-    test('parse v1.1 document', () => {
+    test('parse v1.1 document', async () => {
       const src = `%YAML 1.1\n---
         true: Yes
         octal: 014
@@ -65,39 +63,58 @@ module.exports = driver => {
           Pz7Y6OjuDg4J+fn5OTk6enp
           56enmleECcgggoBADs=
         `
-      return driver
-        .executeScript(
-          `var res = YAML.parse(${JSON.stringify(src)})
-          if (res.date instanceof Date) res.date = res.date.toISOString()
-          if (res.set instanceof Set) {
-            var set = []
-            res.set.forEach(function(value) { set.push(value) })
-            res.set = set
-          }
-          if (res.omap instanceof Map) {
-            var omap = []
-            res.omap.forEach(function(value, key) { omap.push([key, value]) })
-            res.omap = omap
-          }
-          if (res.picture instanceof Uint8Array) {
-            res.pictureLength = res.picture.length
-          }
-          return res`
-        )
-        .then(res => {
-          expect(res).toMatchObject({
-            true: true,
-            octal: 12,
-            sexagesimal: 12345,
-            date: '2002-12-14T00:00:00.000Z',
-            omap: [
-              ['foo', 'bar'],
-              ['fizz', 'buzz']
-            ],
-            set: ['a', 'b', 'c'],
-            pictureLength: 65
-          })
-        })
+      const res = await driver.executeScript(
+        `var res = YAML.parse(${JSON.stringify(src)})
+        if (res.date instanceof Date) res.date = 'date:' + res.date.toISOString()
+        if (res.set instanceof Set) {
+          var set = []
+          res.set.forEach(function(value) { set.push(value) })
+          res.set = set
+        }
+        if (res.omap instanceof Map) {
+          var omap = []
+          res.omap.forEach(function(value, key) { omap.push([key, value]) })
+          res.omap = omap
+        }
+        if (res.picture instanceof Uint8Array) {
+          res.pictureLength = res.picture.length
+        }
+        return res`
+      )
+      expect(res).toMatchObject({
+        true: true,
+        octal: 12,
+        sexagesimal: 12345,
+        date: 'date:2002-12-14T00:00:00.000Z',
+        omap: [
+          ['foo', 'bar'],
+          ['fizz', 'buzz']
+        ],
+        set: ['a', 'b', 'c'],
+        pictureLength: 65
+      })
+    })
+
+    test('parse with reviver', async () => {
+      const res = await driver.executeScript(
+        `return YAML.parse(
+          '{"1": 1, "2": 2, "3": {"4": 4, "5": {"6": 6}}}',
+          function(key, value) { return typeof value === 'number' ? 2 * value : value }
+        )`
+      )
+      expect(res).toMatchObject({ 1: 2, 2: 4, 3: { 4: 8, 5: { 6: 12 } } })
+    })
+  })
+
+  describe('stringify features', () => {
+    test('stringify with replacer', async () => {
+      const res = await driver.executeScript(
+        `return YAML.stringify(
+          { a: 1, b: 2, c: [3, 4] },
+          function(key, value) { return typeof value === 'number' ? 2 * value : value }
+        )`
+      )
+      expect(res).toBe('a: 2\nb: 4\nc:\n  - 6\n  - 8\n')
     })
   })
 }
