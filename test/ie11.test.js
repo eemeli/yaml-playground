@@ -8,7 +8,10 @@ const driver = getDriver({
   os_version: '8.1'
 })
 
-beforeAll(() => driver.get('http://localhost:8080/test.html'), 5 * 60 * 1000)
+beforeAll(
+  () => driver.get('http://localhost:8080/polyfill-test.html'),
+  5 * 60 * 1000
+)
 afterAll(() => driver.quit(), 5 * 60 * 1000)
 describe('test suite', () => {
   testSuite(driver)

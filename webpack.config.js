@@ -43,6 +43,10 @@ const yaml = Object.assign(
       new HtmlWebpackPlugin({
         template: 'src/test.html',
         filename: 'test.html'
+      }),
+      new HtmlWebpackPlugin({
+        template: 'src/polyfill-test.html',
+        filename: 'polyfill-test.html'
       })
     ]
   },

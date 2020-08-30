@@ -3,7 +3,7 @@ const testSuite = require('./test-suite')
 
 const driver = getDriver({
   browserName: 'Chrome',
-  browser_version: '49.0',
+  browser_version: '54.0',
   os: 'Windows',
   os_version: '10'
 })
