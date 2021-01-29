@@ -26,11 +26,6 @@ const common = {
   }
 }
 
-const polyfill = {
-  entry: './src/polyfill.js',
-  output: { filename: 'polyfill.js' }
-}
-
 const yaml = Object.assign(
   {
     entry: './node_modules/yaml/browser/index.js',
@@ -43,10 +38,6 @@ const yaml = Object.assign(
       new HtmlWebpackPlugin({
         template: 'src/test.html',
         filename: 'test.html'
-      }),
-      new HtmlWebpackPlugin({
-        template: 'src/polyfill-test.html',
-        filename: 'polyfill-test.html'
       })
     ]
   },
@@ -65,4 +56,4 @@ const app = Object.assign(
   common
 )
 
-module.exports = [polyfill, yaml, app]
+module.exports = [yaml, app]
