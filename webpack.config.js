@@ -21,8 +21,10 @@ const common = {
       }
     ]
   },
-  node: {
-    Buffer: false
+  resolve: {
+    fallback: {
+      Buffer: false
+    }
   }
 }
 
