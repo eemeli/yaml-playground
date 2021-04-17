@@ -65,19 +65,29 @@ module.exports = driver => {
         `
       const res = await driver.executeScript(
         `var res = YAML.parse(${JSON.stringify(src)})
-        if (res.date instanceof Date) res.date = 'date:' + res.date.toISOString()
-        if (res.set instanceof Set) {
+        try {
+          res.date = 'date:' + res.date.toISOString()
+        } catch (error) {
+          res.date = error
+        }
+        try {
           var set = []
-          res.set.forEach(function(value) { set.push(value) })
+          res.set.forEach((value) => set.push(value))
           res.set = set
+        } catch (error) {
+          res.set = error
         }
-        if (res.omap instanceof Map) {
+        try {
           var omap = []
-          res.omap.forEach(function(value, key) { omap.push([key, value]) })
+          res.omap.forEach((value, key) => omap.push([key, value]))
           res.omap = omap
+        } catch (error) {
+          res.omap = error
         }
-        if (res.picture instanceof Uint8Array) {
+        try {
           res.pictureLength = res.picture.length
+        } catch (error) {
+          res.pictureLength = error
         }
         return res`
       )

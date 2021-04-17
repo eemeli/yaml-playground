@@ -1,12 +1,7 @@
 const getDriver = require('./browserstack-driver')
 const testSuite = require('./test-suite')
 
-const driver = getDriver({
-  browserName: 'Edge',
-  browser_version: '17.0',
-  os: 'Windows',
-  os_version: '10'
-})
+const driver = getDriver({ browserName: 'Edge', browser_version: '88' })
 
 beforeAll(() => driver.get('http://localhost:8080/test.html'), 5 * 60 * 1000)
 afterAll(() => driver.quit(), 5 * 60 * 1000)

@@ -11,7 +11,15 @@ const common = {
         use: {
           loader: 'babel-loader',
           options: {
-            presets: ['@babel/preset-env']
+            presets: [
+              [
+                '@babel/preset-env',
+                {
+                  exclude: ['@babel/plugin-transform-regenerator'],
+                  targets: 'defaults, not ie 11'
+                }
+              ]
+            ]
           }
         }
       },

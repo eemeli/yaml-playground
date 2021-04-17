@@ -16,9 +16,9 @@
     "build": "webpack --mode production",
     "start": "webpack serve --mode development --open",
     "test:local": "jest local",
-    "test": "node scripts/jest-with-services android chrome edge safari"
+    "test": "node scripts/jest-with-services chrome edge firefox safari"
   },
-  "browserslist": "> 0.5%, not dead, not ie 11",
+  "browserslist": "defaults, not ie 11",
   "prettier": {
     "arrowParens": "avoid",
     "semi": false,
