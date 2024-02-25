@@ -1,6 +1,3 @@
-import YAML from 'yaml'
-import './main.css'
-
 console.log('YAML', YAML) // eslint-disable-line no-console
 
 function Store(key) {

@@ -3,14 +3,17 @@ const { Builder, Capabilities } = require('selenium-webdriver')
 describe('Browser tests', () => {
   let driver
 
-  beforeAll(async () => {
-    driver = new Builder()
-      .usingServer(`http://localhost:4444/wd/hub`)
-      .withCapabilities(Capabilities.chrome())
-      .build()
+  beforeAll(
+    async () => {
+      driver = new Builder()
+        .usingServer(`http://localhost:4444/wd/hub`)
+        .withCapabilities(Capabilities.chrome())
+        .build()
 
-    await driver.get('http://bs-local.com:8080/test.html')
-  }, 5 * 60 * 1000)
+      await driver.get('http://bs-local.com:8080/test.html')
+    },
+    5 * 60 * 1000
+  )
 
   afterAll(async () => {
     await driver.quit()
