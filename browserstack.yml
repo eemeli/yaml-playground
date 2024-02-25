@@ -1,0 +1,19 @@
+projectName: yaml
+buildName: yaml-browsers
+buildIdentifier: '#${BUILD_NUMBER}'
+
+consoleLogs: info
+debug: false
+networkLogs: false
+
+browserstackLocal: true
+parallelsPerPlatform: 1
+platforms:
+  - browserName: Chrome
+    browserVersion: 87
+  - browserName: Edge
+    browserVersion: 88
+  - browserName: Firefox
+    browserVersion: 78
+  - browserName: Safari
+    browserVersion: 13.1

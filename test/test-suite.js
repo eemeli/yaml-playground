@@ -1,9 +1,25 @@
-module.exports = driver => {
-  beforeAll(() =>
-    driver.executeScript('return typeof YAML').then(res => {
-      expect(res).toBe('object')
-    })
-  )
+const { Builder, Capabilities } = require('selenium-webdriver')
+
+describe('Browser tests', () => {
+  let driver
+
+  beforeAll(async () => {
+    driver = new Builder()
+      .usingServer(`http://localhost:4444/wd/hub`)
+      .withCapabilities(Capabilities.chrome())
+      .build()
+
+    await driver.get('http://bs-local.com:8080/test.html')
+  }, 5 * 60 * 1000)
+
+  afterAll(async () => {
+    await driver.quit()
+  })
+
+  test('typeof YAML', async () => {
+    const res = await driver.executeScript('return typeof YAML')
+    expect(res).toBe('object')
+  })
 
   const valid = [
     { name: 'plain string', yaml: 'foo\n', js: 'foo' },
@@ -127,4 +143,4 @@ module.exports = driver => {
       expect(res).toBe('a: 2\nb: 4\nc:\n  - 6\n  - 8\n')
     })
   })
-}
+})
