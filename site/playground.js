@@ -1,4 +1,7 @@
-console.log('YAML', YAML) // eslint-disable-line no-console
+/* eslint-env browser */
+/* global YAML */
+
+console.log('YAML', YAML)
 
 function Store(key) {
   this.get = () => window.localStorage.getItem(key)

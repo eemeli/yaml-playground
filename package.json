@@ -24,7 +24,7 @@
   },
   "jest": {
     "testMatch": [
-      "**/test/test-suite.js"
+      "**/browser.tests.js"
     ]
   },
   "devDependencies": {

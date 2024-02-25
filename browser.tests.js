@@ -1,3 +1,5 @@
+/* eslint-env jest */
+
 const { Builder, Capabilities } = require('selenium-webdriver')
 
 describe('Browser tests', () => {

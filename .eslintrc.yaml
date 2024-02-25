@@ -1,0 +1,10 @@
+root: true
+parser: espree
+
+env:
+  es2020: true
+  node: false
+
+extends:
+  - eslint:recommended
+  - prettier
