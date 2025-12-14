@@ -1,42 +1,44 @@
 name: Update Pages
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
 on:
   - workflow_dispatch
 
-permissions:
-  contents: write
-
 jobs:
-  update:
+  deploy:
     runs-on: ubuntu-latest
 
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
     steps:
-      - uses: actions/setup-node@v4
-        with: { node-version: 20 }
-      - uses: actions/checkout@v4
+      - uses: actions/configure-pages@v5
+      - uses: actions/setup-node@v6
+      - uses: actions/checkout@v6
         with:
           repository: eemeli/yaml
           submodules: true
+
       - run: npm ci
-      - run: npm run build:browser
+      - run: npm run build
       - name: Playground setup
         working-directory: ./playground
-        run: npm ci
+        run: npm install
       - name: Playground build
         working-directory: ./playground
         run: npm run build
 
-      - uses: actions/checkout@v4
+      - uses: actions/upload-pages-artifact@v3
         with:
-          repository: eemeli/yaml-playground
-          ref: gh-pages
-          path: ./gh-pages
-      - run: rm gh-pages/*
-      - run: cp playground/site/* gh-pages/
-
-      - name: git config
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-      - run: git add . && git commit -m 'Update playground' && git push
-        working-directory: ./gh-pages
+          path: playground/site/
+      - uses: actions/deploy-pages@v4
+        id: deployment
