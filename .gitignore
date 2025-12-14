@@ -3,4 +3,5 @@
 /node_modules/
 /local.log
 /log/
+/package-lock.json
 /site/yaml.*
