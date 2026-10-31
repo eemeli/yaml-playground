@@ -23,7 +23,7 @@ function jsonReplacer(_key, value) {
     for (const [k, v] of value) {
       let keyStr
       if (typeof k === 'object' && k !== null) {
-        keyStr = JSON.stringify(k)
+        keyStr = JSON.stringify(k, jsonReplacer)
       } else {
         keyStr = String(k)
       }
