@@ -16,20 +16,19 @@ const jsonArea = document.getElementById('json')
 
 // JSON.stringify() serializes Set and Map instances as {}, e.g. for !!set
 // and !!omap values, depending on the yaml version's toJSON() behaviour.
+// A Map becomes an array of single-pair objects, like the YAML !!omap syntax,
+// as a plain object would reorder integer-like keys and merge keys such as
+// 1 and "1".
 function jsonReplacer(_key, value) {
   if (value instanceof Set) return Array.from(value)
   if (value instanceof Map) {
-    const obj = {}
-    for (const [k, v] of value) {
-      let keyStr
-      if (typeof k === 'object' && k !== null) {
-        keyStr = JSON.stringify(k, jsonReplacer)
-      } else {
-        keyStr = String(k)
-      }
-      obj[keyStr] = v
-    }
-    return obj
+    return Array.from(value, ([k, v]) => {
+      const keyStr =
+        typeof k === 'object' && k !== null
+          ? JSON.stringify(k, jsonReplacer)
+          : String(k)
+      return { [keyStr]: v }
+    })
   }
   return value
 }
