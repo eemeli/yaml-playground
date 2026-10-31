@@ -14,6 +14,26 @@ const defaultSrc = '# Edit YAML here\n\nfoo: 42'
 const yamlArea = document.getElementById('yaml')
 const jsonArea = document.getElementById('json')
 
+// JSON.stringify() serializes Set and Map instances as {}, e.g. for !!set
+// and !!omap values, depending on the yaml version's toJSON() behaviour.
+function jsonReplacer(_key, value) {
+  if (value instanceof Set) return Array.from(value)
+  if (value instanceof Map) {
+    const obj = {}
+    for (const [k, v] of value) {
+      let keyStr
+      if (typeof k === 'object' && k !== null) {
+        keyStr = JSON.stringify(k)
+      } else {
+        keyStr = String(k)
+      }
+      obj[keyStr] = v
+    }
+    return obj
+  }
+  return value
+}
+
 function getJSON(src) {
   const docs = YAML.parseAllDocuments(src)
   const json = docs.map(doc =>
@@ -22,7 +42,7 @@ function getJSON(src) {
           .slice(0, 5)
           .map(error => `${error.name}:\n  ${error.message}`)
           .join('\n')
-      : JSON.stringify(doc.toJSON(), null, '  ')
+      : JSON.stringify(doc.toJSON(), jsonReplacer, '  ')
   )
   return json.join('\n\n')
 }
